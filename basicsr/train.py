@@ -6,7 +6,7 @@ import torch
 from os import path as osp
 
 from basicsr.data import build_dataloader, build_dataset
-from basicsr.data.data_sampler import EnlargedSampler
+from basicsr.data.data_sampler import EnlargedSampler, BalancedSampler
 from basicsr.data.prefetch_dataloader import CPUPrefetcher, CUDAPrefetcher
 from basicsr.models import build_model
 from basicsr.utils import (AvgTimer, MessageLogger, check_resume, get_env_info, get_root_logger, get_time_str,
@@ -33,7 +33,15 @@ def create_train_val_dataloader(opt, logger):
         if phase == 'train':
             dataset_enlarge_ratio = dataset_opt.get('dataset_enlarge_ratio', 1)
             train_set = build_dataset(dataset_opt)
-            train_sampler = EnlargedSampler(train_set, opt['world_size'], opt['rank'], dataset_enlarge_ratio)
+
+            if "balanced" in opt["train"] and opt["train"]["balanced"]: train_sampler = BalancedSampler(train_set,
+                                                                                                        opt['world_size'],
+                                                                                                        opt['rank'],
+                                                                                                        opt["datasets"]["train"]["path_labels"],
+                                                                                                        dataset_enlarge_ratio,
+                                                                                                        opt["datasets"]["train"]["balancing_cols"])
+            else: train_sampler = EnlargedSampler(train_set, opt['world_size'], opt['rank'], dataset_enlarge_ratio)
+
             train_loader = build_dataloader(
                 train_set,
                 dataset_opt,
