@@ -34,7 +34,7 @@ def create_train_val_dataloader(opt, logger):
             dataset_enlarge_ratio = dataset_opt.get('dataset_enlarge_ratio', 1)
             train_set = build_dataset(dataset_opt)
 
-            if "balanced" in opt["train"] and opt["train"]["balanced"]: train_sampler = BalancedSampler(train_set,
+            if "balanced" in opt["datasets"]["train"] and opt["datasets"]["train"]["balanced"]: train_sampler = BalancedSampler(train_set,
                                                                                                         opt['world_size'],
                                                                                                         opt['rank'],
                                                                                                         opt["datasets"]["train"]["path_labels"],
