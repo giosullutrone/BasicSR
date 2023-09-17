@@ -33,6 +33,7 @@ BasicSR (**Basic** **S**uper **R**estoration) 是一个基于 PyTorch 的开源 
 
 🚩 **New Features/Updates**
 
+- ✅ Sep 17, 2023. Add **Guiding loss** to improve reconstruction loss and down-stream task performance.
 - ✅ July 26, 2022. Add plot scripts 📊[Plot](scripts/plot).
 - ✅ May 9, 2022. BasicSR joins [XPixel](http://xpixel.group/).
 - ✅ Oct 5, 2021. Add **ECBSR training and testing** codes: [ECBSR](https://github.com/xindongzhang/ECBSR).
